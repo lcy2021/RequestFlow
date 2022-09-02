@@ -29,7 +29,7 @@
 import { ref } from 'vue'
 import { Setting, Link, Search, Plus } from '@element-plus/icons-vue'
 import FlowItem from '@/components/FlowItem.vue'
-import TabItemVue from '@/components/TabItem.vue'
+import Request from '@/components/Request.vue'
 import { useStore } from '@/store'
 import { SET_Flow } from '@/enums/MutationEnum'
 import { useRouter } from 'vue-router'
@@ -57,7 +57,7 @@ const addFlow = () => {
         name: value
       }
       router.addRoute('Home', {
-        component: TabItemVue,
+        component: Request,
         path: `/${value}`,
         name: value,
         props: { parentId: newNav.id }
