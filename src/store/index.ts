@@ -1,8 +1,14 @@
 import { createStore, Store, useStore as baseUseStore } from "vuex";
 import NavModel from "@/models/NavModel";
-import { SET_Flow, SET_StoreWay, SET_Request } from "@/enums/MutationEnum";
+import {
+  SET_Flow,
+  SET_StoreWay,
+  SET_Request,
+  GET_RequestByFlow,
+} from "@/enums/MutationEnum";
 import { InjectionKey } from "vue";
 import RequestModel from "@/models/RequestModel";
+import { Guid } from "guid-typescript";
 
 export interface State {
   useLocalStorage: boolean;
@@ -27,6 +33,11 @@ export const store = createStore<State>({
     },
     [SET_Request]: (state: State, request: RequestModel) => {
       state.requests.push(request);
+    },
+  },
+  getters: {
+    [GET_RequestByFlow]: (state: State) => (parentId: string) => {
+      return state.requests.filter((p) => p.parentId === parentId);
     },
   },
 });

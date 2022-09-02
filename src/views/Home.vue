@@ -18,24 +18,25 @@
         <el-button type="primary" :icon="Plus" :text="true" @click="addFlow"
           >添加流程</el-button
         >
-        <FlowItem />
+        <Group />
       </el-menu>
-      <router-view />
+      <router-view class="main-right-padding" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import Group from '@/components/Group.vue'
+import Request from '@/components/Request.vue'
 import { ref } from 'vue'
 import { Setting, Link, Search, Plus } from '@element-plus/icons-vue'
-import FlowItem from '@/components/FlowItem.vue'
-import Request from '@/components/Request.vue'
 import { useStore } from '@/store'
-import { SET_Flow } from '@/enums/MutationEnum'
+import { SET_Flow, SET_Request } from '@/enums/MutationEnum'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import NavModel from '@/models/NavModel'
 import { Guid } from 'guid-typescript'
+import RequestModel from '@/models/RequestModel'
 
 const search = ref('')
 const store = useStore()
@@ -43,14 +44,14 @@ const router = useRouter()
 
 //Handle new flow button
 const addFlow = () => {
-  ElMessageBox.prompt('请输入流程名称', '添加流程', {
+  ElMessageBox.prompt('请输入分组名称', '新建分组', {
     confirmButtonText: 'OK',
     cancelButtonText: 'Cancel'
   })
     .then(({ value }) => {
       ElMessage({
         type: 'success',
-        message: `流程创建成功:${value}`
+        message: `创建成功:${value}`
       })
       const newNav: NavModel = {
         id: Guid.create().toString(),
@@ -63,6 +64,15 @@ const addFlow = () => {
         props: { parentId: newNav.id }
       })
       store.commit(SET_Flow, newNav)
+
+      const defaultRequest: RequestModel = {
+        id: Guid.create().toString(),
+        name: 'Request-1',
+        title: 'Request-1',
+        parentId: newNav.id
+      }
+      store.commit(SET_Request, defaultRequest)
+
       router.push(value)
     })
     .catch(() => {
@@ -74,7 +84,7 @@ const addFlow = () => {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .main {
   display: flex;
   height: calc(100% - 60px);
@@ -93,6 +103,9 @@ const addFlow = () => {
 }
 .main-right {
   flex: 1;
+}
+.main-right-padding {
+  padding: 10px;
 }
 .setting {
   cursor: pointer;
