@@ -1,4 +1,8 @@
-export const SET_StoreWay = "SET_StoreWay";
-export const SET_Flow = "SET_Flow";
-export const SET_Request = "SET_Request";
-export const GET_RequestByFlow = "GET_RequestByFlow";
+export enum MutaionEnum {
+  SET_StoreWay = "SET_StoreWay",
+  SET_Group = "SET_Group",
+  SET_Request = "SET_Request",
+  SET_BaseUrl = "SET_BaseUrl",
+  GET_RequestByGroup = "GET_RequestByGroup",
+  GET_BaseUrl = "GET_BaseUrl",
+}

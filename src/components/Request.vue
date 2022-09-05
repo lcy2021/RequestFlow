@@ -1,17 +1,6 @@
 <template>
-  <el-tabs
-    v-model="select"
-    type="card"
-    editable
-    class="main-right"
-    @edit="handleTabsEdit"
-  >
-    <el-tab-pane
-      v-for="item in requets"
-      :key="item.id"
-      :label="item.title"
-      :name="item.name"
-    >
+  <el-tabs v-model="select" type="card" editable class="main-right" @edit="handleTabsEdit">
+    <el-tab-pane v-for="item in requets" :key="item.id" :label="item.title" :name="item.name">
       <template #label>
         <span>{{ item.name }}</span>
       </template>
@@ -26,14 +15,14 @@ import { defineProps, ref } from 'vue'
 import RequestModel from '@/models/RequestModel'
 import { useStore } from '@/store'
 import { computed } from 'vue'
-import { SET_Request } from '@/enums/MutationEnum'
+import { MutaionEnum } from '@/enums/MutationEnum'
 import { Guid } from 'guid-typescript'
 
 const parent = defineProps<{ parentId: string }>()
 
 const store = useStore()
 const requets = computed<Array<RequestModel>>(() => {
-  return store.getters.GET_RequestByFlow(parent.parentId)
+  return store.getters[MutaionEnum.GET_RequestByGroup](parent.parentId)
 })
 const select = ref(requets.value[0].name)
 
@@ -43,10 +32,9 @@ const handleTabsEdit = (targetName: string, action: 'remove' | 'add') => {
       id: Guid.create().toString(),
       parentId: parent.parentId,
       name: `Request-${requets.value.length + 1}`,
-      title: `Request-${requets.value.length + 1}`,
-      showEdit: false
+      title: `Request-${requets.value.length + 1}`
     }
-    store.commit(SET_Request, newRequest)
+    store.commit(MutaionEnum.SET_Request, newRequest)
   } else if (action === 'remove') {
     // const tabs = editableTabs.value
     // let activeName = editableTabsValue.value

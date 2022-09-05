@@ -1,23 +1,17 @@
 <template>
   <div style="height: 100%">
     <div class="main-header">
-      <el-icon class="setting" title="设置" :size="20"><Setting /></el-icon>
-      <el-icon class="setting" title="基础地址管理" :size="20"
-        ><Link
-      /></el-icon>
+      <el-icon class="setting" title="设置" :size="20">
+        <Setting />
+      </el-icon>
+      <el-icon class="setting" title="基础地址管理" :size="20">
+        <Link />
+      </el-icon>
     </div>
     <div class="main">
       <el-menu class="main-left" :router="true">
-        <el-input
-          v-model="search"
-          class="w-50 m-2"
-          size="large"
-          placeholder="查询"
-          :suffix-icon="Search"
-        />
-        <el-button type="primary" :icon="Plus" :text="true" @click="addFlow"
-          >添加流程</el-button
-        >
+        <el-input v-model="search" class="w-50 m-2" size="large" placeholder="查询" :suffix-icon="Search" />
+        <el-button type="primary" :icon="Plus" :text="true" @click="addFlow">添加流程</el-button>
         <Group />
       </el-menu>
       <router-view class="main-right-padding" />
@@ -31,7 +25,7 @@ import Request from '@/components/Request.vue'
 import { ref } from 'vue'
 import { Setting, Link, Search, Plus } from '@element-plus/icons-vue'
 import { useStore } from '@/store'
-import { SET_Flow, SET_Request } from '@/enums/MutationEnum'
+import { MutaionEnum } from '@/enums/MutationEnum'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import NavModel from '@/models/NavModel'
@@ -63,7 +57,7 @@ const addFlow = () => {
         name: value,
         props: { parentId: newNav.id }
       })
-      store.commit(SET_Flow, newNav)
+      store.commit(MutaionEnum.SET_Group, newNav)
 
       const defaultRequest: RequestModel = {
         id: Guid.create().toString(),
@@ -71,7 +65,7 @@ const addFlow = () => {
         title: 'Request-1',
         parentId: newNav.id
       }
-      store.commit(SET_Request, defaultRequest)
+      store.commit(MutaionEnum.SET_Request, defaultRequest)
 
       router.push(value)
     })
