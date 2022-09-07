@@ -3,7 +3,6 @@ import NavModel from "@/models/NavModel";
 import { MutaionEnum } from "@/enums/MutationEnum";
 import { InjectionKey } from "vue";
 import RequestModel from "@/models/RequestModel";
-import { Guid } from "guid-typescript";
 
 export interface State {
   useLocalStorage: boolean;
@@ -19,7 +18,7 @@ export const store = createStore<State>({
     useLocalStorage: true,
     navs: new Array<NavModel>(),
     requests: new Array<RequestModel>(),
-    baseUrls: new Array<string>()
+    baseUrls: new Array<string>(),
   },
   mutations: {
     [MutaionEnum.SET_Group]: (state: State, nav: NavModel) => {
